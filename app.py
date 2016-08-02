@@ -118,9 +118,7 @@ def makeWebhookResult(data):
         return {}
 
     # print(json.dumps(item, indent=4))
-    speech = ""
-    for m in range(len(data)):
-        speech = speech + data[m] +"\n"
+    speech = type(data)
     
     '''
     speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
