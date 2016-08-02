@@ -1,11 +1,12 @@
 #!/usr/bin/env python
-
-import urllib
-import json
 import os
-
+import csv
+import json
+import string
+import urllib
 from flask import Flask
 from flask import request
+from random import randint
 from flask import make_response
 
 # Flask app should start in global layout
@@ -29,23 +30,59 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
-        return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = makeYqlQuery(req)
-    if yql_query is None:
-        return {}
-    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
-    print(yql_url)
+    if req.get("result").get("action") == "yahooWeatherForecast":
+        baseurl = "https://query.yahooapis.com/v1/public/yql?"
+        yql_query = makeYqlQuery(req)
+        if yql_query is None:
+            return {}
+        yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
+        print(yql_url)
 
-    result = urllib.urlopen(yql_url).read()
-    print("yql result: ")
-    print(result)
+        result = urllib.urlopen(yql_url).read()
+        print("yql result: ")
+        print(result)
 
-    data = json.loads(result)
-    res = makeWebhookResult(data)
-    return res
+        data = json.loads(result)
+        res = makeWebhookResult(data)
+        return res
 
+##################################################################################################
+'''
+    else if req.get("result").get("action") == "recommend.people":
+
+        set_of_responses = [
+        "Sorry.I searched far and wide but could'nt find any suitable recommendation",
+        "Still learning. Nothing to show for this query",
+        "Could you please rephrase the query? I am not sure I get you",
+        "I could'nt make sense of the last part. Could you please repeat it?",
+        "Sorry. No recommendations to offer"
+        ]
+
+        response = ""
+        sample = open("data.csv","r")
+        reader = csv.reader(sample)
+
+        keyword = req.get("result").get("parameters").get("keyword")
+
+        for line in reader:
+            if keyword in line[0]:
+                for a in range(1,len(line)):
+
+                    name = line[a].replace("@tcs.com","")
+                    name = name.replace("."," ")
+
+                    if response == "":
+                        response = "I think these people can help you with "+line[0]+":\n"
+                        response = response + "\t\t:pencil2:\t" + name.title() + "     ---- " + line[a] + "\n"
+                    else:
+                        response = response + "\t\t:pencil2:\t" + name.title() + "     ---- " + line[a] + "\n"
+                break 
+        
+        if not response:
+            magic = randint(0,4)
+            response = set_of_responses[magic]
+'''
+##################################################################################################
 
 def makeYqlQuery(req):
     result = req.get("result")
@@ -81,9 +118,14 @@ def makeWebhookResult(data):
         return {}
 
     # print(json.dumps(item, indent=4))
-
+    speech = ""
+    for m in range(len(data)):
+        speech = speech + data[m] +"\n"
+    
+    '''
     speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
-             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
+            ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
+    '''
 
     print("Response:")
     print(speech)
@@ -139,3 +181,4 @@ if __name__ == '__main__':
     print "Starting app on port %d" % port
 
     app.run(debug=False, port=port, host='0.0.0.0')
+
