@@ -89,7 +89,7 @@ def makeWebhookResult(data,req):
     else if req.get("result").get("action") == "recommendpeople":
        
         key = req.get("result").get("parameters").get("keyword")
-        speech = "No recommendation pertaining to " + key + "currently." 
+        speech = "No recommendation pertaining to " + key + "currently."  
 
     print("Response:")
     print(speech)
