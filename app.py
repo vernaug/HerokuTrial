@@ -86,10 +86,10 @@ def makeWebhookResult(data,req):
         speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
                  ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
-    else :
+    else if req.get("result").get("action") == "recommend.people":
        
         key = req.get("result").get("parameters").get("keyword")
-        speech = "Something else pertaining to " + key + ". The current action is " + req.get("result").get("action")
+        speech = "No recommendation pertaining to " + key + "currently." 
 
     print("Response:")
     print(speech)
