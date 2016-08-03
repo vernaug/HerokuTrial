@@ -94,33 +94,32 @@ def makeYqlQuery(req):
 
 
 def makeWebhookResult(data,req):   
-    speech = ""
-    query = data.get('query')
-    if query is None:
-        return {}
-
-    result = query.get('results')
-    if result is None:
-        return {}
-
-    channel = result.get('channel')
-    if channel is None:
-        return {}
-
-    item = channel.get('item')
-    location = channel.get('location')
-    units = channel.get('units')
-    if (location is None) or (item is None) or (units is None):
-        return {}
-
-    condition = item.get('condition')
-    if condition is None:
-        return {}
-
-    print(json.dumps(item, indent=4))    
     
     if req.get("result").get("action") == "yahooWeatherForecast":
-
+        query = data.get('query')
+        if query is None:
+            return {}
+    
+        result = query.get('results')
+        if result is None:
+            return {}
+    
+        channel = result.get('channel')
+        if channel is None:
+            return {}
+    
+        item = channel.get('item')
+        location = channel.get('location')
+        units = channel.get('units')
+        if (location is None) or (item is None) or (units is None):
+            return {}
+    
+        condition = item.get('condition')
+        if condition is None:
+            return {}
+    
+        print(json.dumps(item, indent=4))    
+        
         speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
                  ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
@@ -154,19 +153,19 @@ def makeWebhookResult(data,req):
     print("Response:")
     print(speech)
 
-    slack_message = {
-        "text": speech
-    }
-
-    print(json.dumps(slack_message))
-
-    return {
-        "speech": speech,
-        "displayText": speech,
-        "data": {"slack": slack_message},
-        # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
-    }
+        slack_message = {
+            "text": speech
+        }
+    
+        print(json.dumps(slack_message))
+    
+        return {
+            "speech": speech,
+            "displayText": speech,
+            "data": {"slack": slack_message},
+            # "contextOut": [],
+            "source": "apiai-weather-webhook-sample"
+        }
 '''
     else if req.get("result").get("action") == "recommend.people":
 
