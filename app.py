@@ -168,7 +168,7 @@ def makeWebhookResult(data,req):
             # "contextOut": [],
             "source": "apiai-weather-webhook-sample"
         }
-
+'''
     else if req.get("result").get("action") == "recommend.people":
 
         set_of_responses = [
@@ -216,6 +216,8 @@ def makeWebhookResult(data,req):
             # "contextOut": [],
             "source": "custom-python-code"
         }
+        
+'''
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
