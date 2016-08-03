@@ -57,6 +57,7 @@ def makeYqlQuery(req):
 
 
 def makeWebhookResult(data,req):
+    speech = ""
     if req.get("result").get("action") ==  "yahooWeatherForecast":
         query = data.get('query')
         if query is None:
@@ -85,22 +86,25 @@ def makeWebhookResult(data,req):
         speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
                  ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
-        print("Response:")
-        print(speech)
+    else:
+        speech = "Something else"
 
-        slack_message = {
-            "text": speech
-        }
+    print("Response:")
+    print(speech)
 
-        print(json.dumps(slack_message))
+    slack_message = {
+        "text": speech
+    }
 
-        return {
-            "speech": speech,
-            "displayText": speech,
-            "data": {"slack": slack_message},
-            # "contextOut": [],
-            "source": "apiai-weather-webhook-sample"
-        }
+    print(json.dumps(slack_message))
+
+    return {
+        "speech": speech,
+        "displayText": speech,
+        "data": {"slack": slack_message},
+        # "contextOut": [],
+        "source": "apiai-weather-webhook-sample"
+    }
 
 
 if __name__ == '__main__':
