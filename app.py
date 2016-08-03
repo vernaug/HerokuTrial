@@ -94,7 +94,7 @@ def makeYqlQuery(req):
 
 
 def makeWebhookResult(data,req):   
-    
+    speech = ""
     query = data.get('query')
     if query is None:
         return {}
@@ -124,8 +124,8 @@ def makeWebhookResult(data,req):
         speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
                  ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
+
     else if req.get("result").get("action") == "recommend.people":
-        
         response = ""
         repository = [
         ["nadia architecture","c.anantaram@tcs.com","mahesh.psingh@tcs.com","lipika.dey@tcs.com","ishan.verma@tcs.com"],
@@ -151,22 +151,22 @@ def makeWebhookResult(data,req):
                 break 
         speech = response
     
-        print("Response:")
-        print(speech)
+    print("Response:")
+    print(speech)
 
-        slack_message = {
-            "text": speech
-        }
+    slack_message = {
+        "text": speech
+    }
 
-        print(json.dumps(slack_message))
+    print(json.dumps(slack_message))
 
-        return {
-            "speech": speech,
-            "displayText": speech,
-            "data": {"slack": slack_message},
-            # "contextOut": [],
-            "source": "apiai-weather-webhook-sample"
-        }
+    return {
+        "speech": speech,
+        "displayText": speech,
+        "data": {"slack": slack_message},
+        # "contextOut": [],
+        "source": "apiai-weather-webhook-sample"
+    }
 '''
     else if req.get("result").get("action") == "recommend.people":
 
