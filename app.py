@@ -94,34 +94,63 @@ def makeYqlQuery(req):
 
 
 def makeWebhookResult(data,req):   
+    
+    query = data.get('query')
+    if query is None:
+        return {}
+
+    result = query.get('results')
+    if result is None:
+        return {}
+
+    channel = result.get('channel')
+    if channel is None:
+        return {}
+
+    item = channel.get('item')
+    location = channel.get('location')
+    units = channel.get('units')
+    if (location is None) or (item is None) or (units is None):
+        return {}
+
+    condition = item.get('condition')
+    if condition is None:
+        return {}
+
+    print(json.dumps(item, indent=4))    
+    
     if req.get("result").get("action") == "yahooWeatherForecast":
-        query = data.get('query')
-        if query is None:
-            return {}
-
-        result = query.get('results')
-        if result is None:
-            return {}
-
-        channel = result.get('channel')
-        if channel is None:
-            return {}
-
-        item = channel.get('item')
-        location = channel.get('location')
-        units = channel.get('units')
-        if (location is None) or (item is None) or (units is None):
-            return {}
-
-        condition = item.get('condition')
-        if condition is None:
-            return {}
-
-        print(json.dumps(item, indent=4))
 
         speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
                  ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
+    else if req.get("result").get("action") == "recommend.people":
+        
+        response = ""
+        repository = [
+        ["nadia architecture","c.anantaram@tcs.com","mahesh.psingh@tcs.com","lipika.dey@tcs.com","ishan.verma@tcs.com"],
+        ["deep learning","puneet.agarwal@tcs.com","lovekesh.vig@tcs.com","sarmimala.saikia@tcs.com","m.nambiar@tcs.com"],
+        ["nlu","gautam.shroff@tcs.com","patidar.mayur@tcs.com","shaurya.r@tcs.com","y.mohit@tcs.com"],
+        ["sensor analytics","ehtesham.hassan@tcs.com","malhotra.pankaj@tcs.com","vishnu.tv@tcs.com","gaurangi.anand@tcs.com"],
+        ["entity resolution","karamjit.singh@tcs.com","gupta.garima@tcs.com","rajgopal.srinivasan@tcs.com"],
+        ["evangelise","cs.joshi@tcs.com","sandeep.saxena@tcs.com","t.chattopadhyay@tcs.com","rajgopal.srinivasan@tcs.com"]
+        ]
+        keyword1 = req.get("result").get("parameters").get("keyword")
+        
+        for am in range(len(repository)):
+            if keyword1 in repository[am][0]:
+                for you in range(1,len(repository[am])):
+                    
+                    name = repository[am][you].replace("@tcs.com","")
+                    name = name.replace("."," ")
+                    if response == "":
+                        response = "I think these people can help you with "+repository[am][0]+":\n"
+                        response = response + "\t\t:pencil2:\t" + name.title() + "     ---- " + repository[am][you] + "\n"
+                    else:
+                        response = response + "\t\t:pencil2:\t" + name.title() + "     ---- " + repository[am][you] + "\n"
+                break 
+        speech = response
+    
         print("Response:")
         print(speech)
 
