@@ -124,7 +124,7 @@ def makeWebhookResult(data,req):
         speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
                  ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
-
+'''
     else if req.get("result").get("action") == "recommend.people":
         response = ""
         repository = [
@@ -150,7 +150,7 @@ def makeWebhookResult(data,req):
                         response = response + "\t\t:pencil2:\t" + name.title() + "     ---- " + repository[am][you] + "\n"
                 break 
         speech = response
-    
+    '''
     print("Response:")
     print(speech)
 
