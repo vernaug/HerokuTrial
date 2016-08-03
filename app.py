@@ -89,7 +89,7 @@ def makeWebhookResult(data,req):
     else :
        
         key = req.get("result").get("parameters").get("keyword")
-        speech = "Something else pertaining to " + key
+        speech = "Something else pertaining to " + key + ". The current action is " + req.get("result").get("action")
 
     print("Response:")
     print(speech)
