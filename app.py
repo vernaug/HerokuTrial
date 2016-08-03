@@ -6,12 +6,12 @@ import string
 import urllib
 from flask import Flask
 from flask import request
-from random import randint
+#from random import randint
 from flask import make_response
 
 # Flask app should start in global layout
 app = Flask(__name__)
-response = ""
+#response = ""
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -179,6 +179,7 @@ def makeWebhookResult(data,req):
         "Sorry. No recommendations to offer"
         ]
 
+        response = ""
         sample = open("data.csv","r")
         reader = csv.reader(sample)
 
@@ -199,7 +200,7 @@ def makeWebhookResult(data,req):
                 break 
         
         if not response:
-            magic = randint(0,4)
+            magic = 1
             response = set_of_responses[magic]
         
         slack_message = {
@@ -213,7 +214,7 @@ def makeWebhookResult(data,req):
             "displayText": response,
             "data": {"slack": slack_message},
             # "contextOut": [],
-            "source": "apiai-weather-webhook-sample"
+            "source": "custom-python-code"
         }
 
 if __name__ == '__main__':
