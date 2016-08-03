@@ -86,10 +86,10 @@ def makeWebhookResult(data,req):
         speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
                  ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
-    else if req.get("result").get("metadata").get("intentName") == "peopleRecommender":
-       
+    else :
+        
         key = req.get("result").get("parameters").get("keyword")
-        speech = "No recommendation pertaining to " + key + "currently."  
+        speech = "No recommendation pertaining to " + key + "currently.The current intent is "+ req.get("result").get("metadata").get("intentName")  
 
     print("Response:")
     print(speech)
