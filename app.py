@@ -95,7 +95,7 @@ def makeWebhookResult(data,req):
         ["nlu","gautam.shroff@tcs.com","patidar.mayur@tcs.com","shaurya.r@tcs.com","y.mohit@tcs.com"],
         ["sensor analytics","ehtesham.hassan@tcs.com","malhotra.pankaj@tcs.com","vishnu.tv@tcs.com","gaurangi.anand@tcs.com"],
         ["entity resolution","karamjit.singh@tcs.com","gupta.garima@tcs.com","rajgopal.srinivasan@tcs.com"],
-        ["evangelise","cs.joshi@tcs.com","sandeep.saxena@tcs.com","t.chattopadhyay@tcs.com","rajgopal.srinivasan@tcs.com"]
+        ["evangelise","cs.joshi@tcs.com","sandeep.saxena@tcs.com","t.chattopadhyay@tcs.com","rajgopal.srinivasan@tcs.com"],
         ["dialogue systems","amit.sangroya@tcs.com","sureshkumar.ramasamy@tcs.com","sunilkumar.kopparapu@tcs.com"],
         ["feature engineering","kalra.kanika@tcs.com","rajgopal.srinivasan@tcs.com","ehtesham.hassan@tcs.com"],
         ["causality","gupta.garima1@tcs.com","y.mohit@tcs.com","m.nambiar@tcs.com"],
