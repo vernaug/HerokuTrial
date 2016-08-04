@@ -97,11 +97,21 @@ def makeWebhookResult(data,req):
         ["entity resolution","karamjit.singh@tcs.com","gupta.garima@tcs.com","rajgopal.srinivasan@tcs.com"],
         ["evangelise","cs.joshi@tcs.com","sandeep.saxena@tcs.com","t.chattopadhyay@tcs.com","rajgopal.srinivasan@tcs.com"]
         ]
+        
         response = ""
         for lines in range(len(repository)):
             if key in repository[lines][0]:
                 for names in range(1,len(repository[lines])):
-                    response = response + repository[lines][names] + "\n"
+                    
+                    name = repository[lines][names].replace("@tcs.com","")
+                    name = name.replace("."," ")
+
+                    if response == "":
+                        response = "I think these people can help you with "+ key +":\n"
+                        response = response + "\t\t:pencil2:\t" + name.title() + "     ---- " + repository[lines][names] + "\n"
+                    else:
+                        response = response + "\t\t:pencil2:\t" + name.title() + "     ---- " + repository[lines][names] + "\n"
+                break
 
         speech = response
 
